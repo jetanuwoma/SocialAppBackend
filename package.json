@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "open:server": "nodemon server.js --exec babel-node"
+    "open:server": "nodemon server.js --exec babel-node",
+    "db:migrate": "NODE_ENV=test sequelize db:migrate",
+    "db:seed": "./node_modules/.bin/babel-node seeders/Seeder.js"
   },
   "repository": {
     "type": "git",
@@ -38,6 +40,7 @@
     "eventsource-polyfill": "^0.9.6",
     "express": "^4.16.3",
     "express-sanitizer": "^1.0.4",
+    "faker": "^4.1.0",
     "if-env": "^1.0.4",
     "jsonwebtoken": "^8.3.0",
     "logger": "0.0.1",
