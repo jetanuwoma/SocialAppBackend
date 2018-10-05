@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 import morgan from 'morgan';
+import Routes from '../routes';
 
 const app = express();
 
@@ -18,9 +19,10 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/', (req, res) => {
-  res.send('Welcome to our app');
-})
+Routes(router);
+
+
+app.use('/api', router);
 
 
 export default app;
