@@ -15,7 +15,30 @@ const userRecordDetail = user => ({
 class UsersController {
   
   static login(req, res) {
-    res.status(200).send({ message: 'Successfully login' });
+    const { username, password } = req.body;
+    User.findOne({
+      where: {
+        $or: [
+          { email: username },
+          { username }
+        ]
+      }
+    }).then((user) => {
+      if (user && user.validPassword(password)) {
+        const token = jwt.sign({
+              userId: user.id,
+              roleId: user.roleId,
+              fullName: user.fullName,
+              email: user.email,
+              contact_number: user.contact_number
+            }, req.secret, { expiresIn: '7 days' });
+        res.status(200).send({ user: userRecordDetail(user), token });
+      } else {
+        res.status(400).send({ message: 'Invalid Credentials' });
+      }
+    }).catch((error) => {
+      res.status(400).send(error);
+    })
   }
 
   static signUp(req, res) {
