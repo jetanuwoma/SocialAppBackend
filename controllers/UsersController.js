@@ -8,7 +8,8 @@ const userRecordDetail = user => ({
   email: user.email,
   createdAt: user.createdAt,
   updatedAt: user.updatedAt,
-  roleId: user.roleId 
+  roleId: user.roleId,
+  gender: user.gender
 });
 
 
@@ -31,7 +32,8 @@ class UsersController {
               fullName: user.fullName,
               username: user.username,
               email: user.email,
-              contact_number: user.contact_number
+              contact_number: user.contact_number,
+              gender: user.gender
             }, req.secret, { expiresIn: '7 days' });
         res.status(200).send({ user: userRecordDetail(user), token });
       } else {
@@ -43,21 +45,24 @@ class UsersController {
   }
 
   static signUp(req, res) {
-    const { username, fullName, email, password, roleId, contact_number, dob } = req.body;
+    const { username, fullName, email, password, roleId, contact_number, dob, gender } = req.body;
     const userToCreate = { username,
       fullName,
       email,
       password,
       contact_number,
       roleId,
-      dob
+      dob,
+      gender
     };
     User.create(userToCreate).then((newUser) => {
       const token = jwt.sign({
-        userId: newUser.id,
+        id: newUser.id,
         roleId: newUser.roleId,
         fullName: newUser.fullName,
         email: newUser.email,
+        contact_number: newUser.contact_number,
+        gender: newUser.gender
       }, req.secret, {
         expiresIn: '7 days'
       });
