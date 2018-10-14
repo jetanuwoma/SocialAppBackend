@@ -26,9 +26,10 @@ class UsersController {
     }).then((user) => {
       if (user && user.validPassword(password)) {
         const token = jwt.sign({
-              userId: user.id,
+              id: user.id,
               roleId: user.roleId,
               fullName: user.fullName,
+              username: user.username,
               email: user.email,
               contact_number: user.contact_number
             }, req.secret, { expiresIn: '7 days' });
