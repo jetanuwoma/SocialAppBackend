@@ -78,6 +78,24 @@ class UsersController {
       .send(err);
     });
   }
+
+  static updateUser(req, res) {
+    User.find({ where: {
+      id: req.params.id } })
+        .then((user) => {
+          user.update(req.body)
+            .then(updatedUser => res
+              .status(200).send({ message: `${req.params.id} updated`,
+                data: userRecordDetail(updatedUser)
+              }));
+        })
+        .catch(() => {
+          res.status(404).send({
+            message: `${req.params.id} does not meet any record`
+          });
+        });
+  }
+
 }
 
 export default UsersController;

@@ -9,4 +9,7 @@ export default (router) => {
 
   router.route('/users/login')
     .post(UsersController.login);
+  
+  router.route('/users/:id')
+  .put(Access.verifyToken, UsersController.updateUser) 
 }
